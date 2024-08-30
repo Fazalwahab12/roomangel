@@ -2,12 +2,12 @@ import Image from "next/image";
 
 const page = () => {
   return (
-    <div className="bg-white   rounded-lg  p-20 ">
+    <div className="bg-white   rounded-lg p-5 mt-4 md:p-20 ">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex md:flex-row flex-col md:justify-between items-center mb-6">
         <div>
-          <div className="flex items-center gap-40">
-            <div className="mr-4">
+          <div className="flex items-center  md:gap-40">
+            <div className="md:mr-4">
               <p className="text-2xl font-bold">Total Reviews</p>
               <p className="text-xl font-bold">5K+ Reviews</p>
             </div>
@@ -20,7 +20,7 @@ const page = () => {
           </div>
         </div>
         {/* Star Rating Breakdown */}
-        <div className="flex flex-col items-end pt-8 ">
+        <div className="flex flex-col md:items-end pt-8 ">
           <h2 className="text-2xl font-bold">Customer Feedback</h2>
           {[5, 4, 3, 2, 1].map((rating) => (
             <div key={rating} className="flex  items-center">
