@@ -1,145 +1,122 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from "react";
 
-const page = () => {
+// Initial reviews data
+const initialReviewsData = [
+  {
+    id: 1,
+    review: "Review 1",
+    value1: "Value 2",
+    value2: "Value 2",
+    text: "Review Text 1",
+    details: "This is the full detailed description of Review 1.",
+  },
+  {
+    id: 2,
+    review: "Review 2",
+    value1: "Value 5",
+    value2: "Value 5",
+    text: "Review Text 2",
+    details: "This is the full detailed description of Review 2.",
+  },
+  {
+    id: 3,
+    review: "Review 3",
+    value1: "Value 8",
+    value2: "Value 8",
+    text: "Review Text 3",
+    details: "This is the full detailed description of Review 3.",
+  },
+];
+
+export default function ReviewPage() {
+  const [reviewsData, setReviewsData] = useState(initialReviewsData);
+  const [highlightedReview, setHighlightedReview] = useState(null);
+
+  // Handle review click
+  const handleClick = (review) => {
+    // Update the reviews data to set value2 as "Highlighted review"
+    const updatedReviews = reviewsData.map((r) => {
+      if (r.id === review.id) {
+        return { ...r, value2: "Highlighted review" }; // Set value2 to "Highlighted review"
+      }
+      return r;
+    });
+
+    setReviewsData(updatedReviews); // Update the reviewsData state
+    setHighlightedReview(review); // Set the clicked review as the highlighted review
+  };
+
   return (
-    <div className="bg-white   rounded-lg p-5 mt-4 md:p-20 ">
-      {/* Header */}
-      <div className="flex md:flex-row flex-col md:justify-between items-center mb-6">
-        <div>
-          <div className="flex items-center  md:gap-40">
-            <div className="md:mr-4">
-              <p className="text-2xl font-bold">Total Reviews</p>
-              <p className="text-xl font-bold">5K+ Reviews</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold">Average Rating</p>
-              <p className="text-xl font-bold">
-                4.5 <span className="text-yellow-500">★</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* Star Rating Breakdown */}
-        <div className="flex flex-col md:items-end pt-8 ">
-          <h2 className="text-2xl font-bold">Customer Feedback</h2>
-          {[5, 4, 3, 2, 1].map((rating) => (
-            <div key={rating} className="flex  items-center">
-              <span className="w-6 text-right">{rating} ★</span>
-              <div className="bg-gray-300 w-40 h-2 mx-2 rounded-full">
-                <div
-                  className="bg-yellow-500 h-2 rounded-full"
-                  style={{ width: `${rating * 20}%` }}
-                ></div>
-              </div>
-              <span>{rating * 20}%</span>
-            </div>
-          ))}
-        </div>
+    <div className="min-h-screen flex mt-20 mb-4 mx-2  border-[#1f5453] border-2 rounded-xl md:m-8 sm:m-2 flex-col p-2">
+      {/* Review List */}
+      <div className=" border-[#1f5453] p-1 border-2 rounded-lg mb-4">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Review
+              </th>
+              <th className="p-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Value 1
+              </th>
+              <th className="p-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Value 2
+              </th>
+              <th className="p-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Review Text
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {reviewsData.map((review) => (
+              <tr
+                key={review.id}
+                className={`cursor-pointer ${
+                  highlightedReview?.id === review.id ? "bg-yellow-200" : ""
+                }`}
+                onClick={() => handleClick(review)}
+              >
+                <td className="p-2">{review.review}</td>
+                <td className="p-2">{review.value1}</td>
+                <td className="p-2">{review.value2}</td>
+                <td className="p-2">{review.text}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Reviews */}
-      <div className="space-y-4">
-        {[
-          {
-            name: "Ryan Wilson",
-            review:
-              "These headphones provide immersive sound quality and comfort...",
-            date: "Mar 23, 2023",
-            rating: 5,
-            helpful: 6,
-            unhelpful: 5,
-            avatar: "/path/to/avatar1.jpg",
-          },
-          {
-            name: "Andrew Davis",
-            review: "The microphone on these headphones is very clear...",
-            date: "Mar 22, 2023",
-            rating: 5,
-            helpful: 8,
-            unhelpful: 3,
-            avatar: "/path/to/avatar2.jpg",
-          },
-          {
-            name: "Nicole Adams",
-            review:
-              "These headphones deliver an incredible audio experience...",
-            date: "Mar 21, 2023",
-            rating: 5,
-            helpful: 7,
-            unhelpful: 3,
-            avatar: "/path/to/avatar3.jpg",
-          },
-        ].map((review, idx) => (
-          <div key={idx} className="border p-4 rounded-lg">
-            <div className="flex items-center mb-2">
-              <Image
-                src={review.avatar}
-                alt={review.name}
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-              <div className="ml-4">
-                <p className="text-lg font-bold">{review.name}</p>
-                <p className="text-sm text-gray-500">{review.date}</p>
-              </div>
-            </div>
-            <p className="mb-4">{review.review}</p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                {[...Array(review.rating)].map((_, i) => (
-                  <span key={i} className="text-yellow-500">
-                    ★
-                  </span>
-                ))}
-              </div>
-              <div className="flex items-center text-gray-500">
-                <span className="mr-4">Helpful ({review.helpful})</span>
-                <span>Unhelpful ({review.unhelpful})</span>
-              </div>
-            </div>
+      {/* Conditionally Render Full Details and Reply Section */}
+      {highlightedReview && (
+        <div className="grid grid-cols-2 gap-4 mt-3">
+          {/* Full Details Section */}
+          <div className=" border-[#1f5453] rounded-lg border-2 bg-yellow-100 p-4">
+            <h3 className="font-semibold">
+              Full Details of Highlighted Review
+            </h3>
+            <p>{highlightedReview.details}</p> {/* Show full details */}
           </div>
-        ))}
-      </div>
 
-      {/* Review Form */}
-      <div className="mt-8">
-        <h3 className="text-xl font-bold mb-4">Submit Your Review</h3>
-        <form>
-          <div className="flex items-center mb-4">
-            <label className="mr-4">Rating:</label>
-            <select className="border p-2 rounded-lg">
-              {[5, 4, 3, 2, 1].map((rating) => (
-                <option key={rating} value={rating}>
-                  {rating} Star{rating > 1 && "s"}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <input
-              type="text"
-              className="w-full border p-2 rounded-lg"
-              placeholder="Your Name"
-            />
-          </div>
-          <div className="mb-4">
+          {/* Reply Section */}
+          <div className="p-2 border-[#1f5453] rounded-lg border-2  md:p-4">
+            <h3 className="p-2 md:font-semibold">
+              Reply to Highlighted Review
+            </h3>
             <textarea
-              className="w-full border p-2 rounded-lg"
+              className="w-full border rounded-md p-2"
               rows="4"
-              placeholder="Write your review..."
+              placeholder="Write your reply..."
             ></textarea>
+            <button
+              type="submit"
+              className="btn mt-2 btn-primary btn-lg md:w-100"
+            >
+              Submit Reply
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-lg"
-          >
-            Leave Feedback
-          </button>
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default page;
+}

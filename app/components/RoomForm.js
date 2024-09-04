@@ -3,7 +3,7 @@ import React from "react";
 
 export default function RoomForm({ onNext }) {
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md mt-10 md:m-20 border-blue-500 border-2">
+    <div className="p-6 bg-white rounded-lg shadow-md mt-10 md:m-20 border-[#1f5453] border-2">
       <h2 className="text-xl font-semibold mb-4">Form Section</h2>
       <form>
         <div className="mb-4">
@@ -39,8 +39,8 @@ export default function RoomForm({ onNext }) {
           <input type="text" className="mt-1 p-2 w-full border rounded-md" />
         </div>
         <button
-          type="button"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          type="submit"
+          className="btn btn-primary btn-lg w-100"
           onClick={onNext}
         >
           Next
